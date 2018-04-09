@@ -1,5 +1,5 @@
 # UNIVERSITY ACTIVITIES
-Here is where I host homeworks from my University
+I study Computer Engineering and here is where I host homeworks from my University
 ### How I organize it
 * Branchs: `@subject-name/project`
 ## Contact

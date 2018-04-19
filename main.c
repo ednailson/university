@@ -1,8 +1,16 @@
+/******************************************************************************
+
+                 Aluno: Ednailson Vilas Boas da Cunha Júnior
+                          Matricula: 149131051
+         Código escrito para Analise de Algoritimos 2018.1 - UNIFACS
+
+*******************************************************************************/
+
 #include <stdio.h>
 
 void printVector(int v[], int size, int position1, int position2, int changed) {
     if (changed == -1) printf("\n");
-    else if (changed == -2) printf("\nVETOR FINAL DESSA INTERAÇÃO: ");
+    else if (changed == -2) printf("VETOR FINAL DESSA INTERAÇÃO: ");
     else if (changed == -3) printf("\n## VETOR ORDENADO ##\n");
     else printf("ORDENAÇÃO %d: ", changed);
     for (int i = 0; i < size; i++){

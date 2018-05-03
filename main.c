@@ -7,12 +7,13 @@
 *******************************************************************************/
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void printVector(int v[], int size, int position1, int position2, int changed) {
     if (changed == -1) printf("\n");
-    else if (changed == -2) printf("VETOR FINAL DESSA INTERAÇÃO: ");
-    else if (changed == -3) printf("\n## VETOR ORDENADO ##\n");
-    else printf("ORDENAÇÃO %d: ", changed);
+    else if (changed == -2) printf("\n\nVETOR FINAL DESSA INTERACAOO: ");
+    else if (changed == -3) printf("\n## VETOR ORDENADO ##\n\n\n");
+    else printf("\nORDENACAO %d: ", changed);
     for (int i = 0; i < size; i++){
         if (i==position1) printf("[");
         printf(" %d ", v[i]);
@@ -38,6 +39,8 @@ void vectorOrder(int v[], int size) {
             changed++;
             printVector(v, size, -1, -1, -2);
             printf("\n");
+            while( getchar() != '\n' );
+            system("cls");
             control = 0;
         } else break;
     } while (1);
@@ -45,13 +48,14 @@ void vectorOrder(int v[], int size) {
 }
 
 int main() {
-    printf("# ANALISE DE ALGORITIMO # \n\n- Metódo bolha para ordenação -\n");
+	system("COLOR F0");
+    printf("# ANALISE DE ALGORITIMO # \n\n- Metodo bolha para ordenacao -\n");
     printf("\n\n-- VETOR --");
     int vector[9] = {2, 6, 4, 7, 1, 20, 6, -4, 29};
     printVector(vector, 9, -1, -1, -1);
     printf("\n");
     printf("\n@@ ORDENANDO @@\n\n");
     vectorOrder(vector, 9);
-    printf("\n##  FIM  ##");
+    printf("\n\n##  FIM  ##\n\n");
     return 0;
 }

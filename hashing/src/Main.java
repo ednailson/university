@@ -1,10 +1,8 @@
-import com.sun.deploy.util.Waiter;
-
-import javax.management.timer.Timer;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -22,7 +20,7 @@ public class Main {
                 String[] st = line.split(cvsSplitBy);
                 Student student = new Student();
                 student.SetInfo(Integer.parseInt(st[0]), st[1]);
-                studentList.InsertItem(student, student.GetRegistry()%tableSize);
+                studentList.Insert(student);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -37,22 +35,51 @@ public class Main {
                 }
             }
         }
-
-        LinkedList[] list = studentList.GetList();
-        list[1].Print();
-//        Student st = new Student();
-//        st.SetInfo(149131051, "Junior");
-//        st.SetNext(null);
-//        System.out.println("Nome: " + st.GetName());
-//        System.out.println("Matricula: " + st.GetRegistry());
-//        LinkedList list = new LinkedList();
-//        list.Init();
-//        list.Insert(st);
-//        list.Print();
-//        list.Remove(st);
-//        list.Print();
-//        SeparateChainingHashTable hashTable = new SeparateChainingHashTable();
-//        hashTable.GetTableSize();
-
+        while (true) {
+            System.out.println("# MENU #");
+            System.out.println("-- OPÇÕES --");
+            System.out.println("1 - Imprimir o HASH");
+            System.out.println("2 - Inserir estudante");
+            System.out.println("3 - Remover estudante");
+            System.out.println("4 - Limpar todo o hash");
+            Scanner scanner = new Scanner(System.in);
+            int option = scanner.nextInt();
+            switch (option) {
+                case 1:
+                    System.out.println("\n\n");
+                    studentList.PrintAll();
+                    System.out.println("\n\n");
+                    break;
+                case 2:
+                    System.out.println("Insira a matricula(numero inteiro)");
+                    int registry = scanner.nextInt();
+                    System.out.println("Insira o nome");
+                    String name = scanner.next();
+                    Student s = new Student();
+                    s.SetInfo(registry, name);
+                    if (studentList.Insert(s)){
+                        System.out.println("Estudante inserido com sucesso");
+                    } else {
+                        System.out.println("Estudante não pode ser inserido");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Insira a matricula(numero inteiro)");
+                    int r = scanner.nextInt();
+                    System.out.println("Insira o nome");
+                    String n = scanner.next();
+                    Student s2 = new Student();
+                    s2.SetInfo(r, n);
+                    if (studentList.Remove(s2)){
+                        System.out.println("Estudante removido com sucesso");
+                    } else {
+                        System.out.println("Estudante não foi removido");
+                    }
+                    break;
+                case 4:
+                    studentList.MakeEmpty();
+                    break;
+            }
+        }
     }
 }

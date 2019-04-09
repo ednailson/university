@@ -1,7 +1,12 @@
 1;Alice
+102;Sophia 5
 2;Sophia
-3;J£lia
+203;Julia 5
+3;Julia
+304;Laura 5
 4;Laura
+405;Isabella 5
+103;Isabella 2
 5;Isabella
 6;Manuela
 7;Luiza
@@ -12,10 +17,10 @@
 12;Beatriz
 13;Maria Clara
 14;Maria Luiza
-15;Helo°sa
+15;Heloisa
 16;Mariana
 17;Lara
-18;L°via
+18;Livia
 19;Lorena
 20;Ana Clara
 21;Isadora
@@ -23,28 +28,28 @@
 23;Sarah
 24;Yasmin
 25;Ana Luiza
-26;Let°cia
+26;Leticia
 27;Nicole
 28;Gabriela
 29;Isabelly
 30;Melissa
-31;Cec°lia
+31;Cecilia
 32;Esther
-33;Ana J£lia
+33;Ana Julia
 34;Emanuelly
 35;Clara
 36;Marina
 37;Rebeca
-38;Vit¢ria
+38;Vitoria
 39;Isis
-40;Lav°nia
+40;Lavinia
 41;Maria
 42;Bianca
 43;Ana Beatriz
 44;Larissa
 45;Maria Fernanda
 46;Catarina
-47;Al°cia
+47;Alicia
 48;Maria Alice
 49;Amanda
 50;Ana
@@ -67,8 +72,8 @@
 67;Felipe
 68;Gustavo
 69;Henrique
-70;Jo∆o Pedro
-71;Jo∆o Lucas
+70;Joao Pedro
+71;Joao Lucas
 72;Daniel
 73;Murilo
 74;Vitor
@@ -78,23 +83,32 @@
 78;Pietro
 79;Benjamin
 80;Isaac
-81;Jo∆o
+81;Joao
 82;Joaquim
 83;Lucca
 84;Caio
 85;Vinicius
-86;Cau∆
+86;Caue
 87;Bryan
-88;Jo∆o Miguel
+88;Joao Miguel
 89;Vicente
 90;Francisco
-91;Antìnio
-92;Ben°cio
-93;Jo∆o Vitor
+91;Antonio
+1009;Antonio 10
+92;Benicio
+908;Benicio 10
+93;Joao Vitor
+807;Joao Vitor 10
 94;Enzo Gabriel
+706;Enzo Gabriel 10
 95;Davi Lucas
+605;Davi Lucas 10
 96;Davi Lucca
+504;Davi Lucca 10
 97;Thiago
+403;Thiago 10
 98;Thomas
+302;Thomas 10
 99;Emanuel
+201; Emanuel 10
 100;Enrico

@@ -25,7 +25,8 @@ services:
       - PMA_ARBITRARY=1
 
   apache:
-    image: php:7.2-apache
+    build:
+      context: ./
     restart: always
     ports:
       - '80:80'

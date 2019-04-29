@@ -16,10 +16,12 @@ $e = $_POST['email'];
 $ok = $conn->query("INSERT INTO users (username, password, email)
 VALUES (\"$u\", \"$p\", \"$e\")");
 
+header("Location: login.html");
+
 if (!$ok) {
-    echo " nao foi porra";
+    header("Location: signup.html");
 }
 
 if ($ok) {
-    echo "foi ";
+    header("Location: login.html");
 }

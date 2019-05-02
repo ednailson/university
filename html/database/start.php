@@ -27,8 +27,10 @@ $conn->query("CREATE TABLE users(
 
 $conn->query("CREATE TABLE posts(
    post_id INT AUTO_INCREMENT PRIMARY KEY,
-   text VARCHAR(4000),
-   fk_user_id INT
+   text VARCHAR(4000) NOT NULL,
+   images TEXT,
+   date DATETIME NOT NULL DEFAULT NOW(),
+   fk_user_id INT NOT NULL
 );");
 
 $conn->query("CREATE TABLE friendship_posts(

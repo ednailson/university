@@ -7,17 +7,30 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Blk• Design System by Creative Tim
+    SocialMedia
   </title>
-  <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
   <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-  <!-- Nucleo Icons -->
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-  <!-- CSS Files -->
   <link href="../assets/css/blk-design-system.css?v=1.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
+  <script>
+    $.post("../api/user.php",
+            {
+              user_id: localStorage.getItem("user_id"),
+            },
+            function(data){
+              let obj = JSON.parse(data);
+              console.log(obj);
+              if(obj.status == 200 && obj.data != null) {
+                document.getElementById("userName").innerHTML = obj.data.name;
+                document.getElementById("userEmail").innerHTML = obj.data.email;
+              } else {
+                window.location.href = "../index.html";
+              }
+            });
+  </script>
 </head>
 
 <body class="profile-page">
@@ -26,8 +39,8 @@
   <nav class="navbar navbar-expand-lg fixed-top navbar-transparent " color-on-scroll="100">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="https://demos.creative-tim.com/blk-design-system/index.html" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
-          <span>BLK•</span> Design System
+        <a class="navbar-brand" href="timeline.html" rel="tooltip" data-placement="bottom">
+          <span>SOCIAL•</span>MEDIA
         </a>
         <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-bar bar1"></span>
@@ -40,7 +53,7 @@
           <div class="row">
             <div class="col-6 collapse-brand">
               <a>
-                BLK•
+                SOCIAL•MEDIA
               </a>
             </div>
             <div class="col-6 collapse-close text-right">
@@ -51,84 +64,92 @@
           </div>
         </div>
         <ul class="navbar-nav">
-          <li class="nav-item p-0">
-            <a class="nav-link" rel="tooltip" title="Follow us on Twitter" data-placement="bottom" href="https://twitter.com/CreativeTim" target="_blank">
-              <i class="fab fa-twitter"></i>
-              <p class="d-lg-none d-xl-none">Twitter</p>
+          <li class="dropdown nav-item">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <i class="tim-icons icon-single-02"></i>
             </a>
-          </li>
-          <li class="nav-item p-0">
-            <a class="nav-link" rel="tooltip" title="Like us on Facebook" data-placement="bottom" href="https://www.facebook.com/CreativeTim" target="_blank">
-              <i class="fab fa-facebook-square"></i>
-              <p class="d-lg-none d-xl-none">Facebook</p>
-            </a>
-          </li>
-          <li class="nav-item p-0">
-            <a class="nav-link" rel="tooltip" title="Follow us on Instagram" data-placement="bottom" href="https://www.instagram.com/CreativeTimOfficial" target="_blank">
-              <i class="fab fa-instagram"></i>
-              <p class="d-lg-none d-xl-none">Instagram</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../index.html">Back to Kit</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://github.com/creativetimofficial/blk-design-system/issues">Have an issue?</a>
+            <div class="dropdown-menu dropdown-with-icons">
+              <a href="#" class="dropdown-item" data-toggle="modal" data-target="#myModal1">
+                <i class="tim-icons icon-button-power"></i> Logout
+              </a>
+            </div>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  <!-- End Navbar -->
+  <div class="modal fade modal-mini modal-info modal-mini" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header justify-content-center">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="tim-icons icon-simple-remove text-white"></i>
+          </button>
+          <div class="modal-profile">
+            <i class="tim-icons icon-single-02 text-info"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente sair da sua conta?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-link btn-neutral" id="logoutBtn">Sair</button>
+          <button type="button" class="btn btn-link btn-neutral" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="wrapper">
     <div class="page-header">
       <img src="../assets/img/dots.png" class="dots">
       <img src="../assets/img/path4.png" class="path">
       <div class="container align-items-center">
         <div class="row">
-          <div class="col-lg-6 col-md-6">
-            <h1 class="profile-title text-left">Mike Scheinder</h1>
-            <h5 class="text-on-back">01</h5>
-            <p class="profile-description">Offices parties lasting outward nothing age few resolve. Impression to discretion understood to we interested he excellence. Him remarkably use projection collecting. Going about eat forty world has round miles.</p>
-            <div class="btn-wrapper profile pt-3">
-              <a target="_blank" href="https://twitter.com/creativetim" class="btn btn-icon btn-twitter btn-round" data-toggle="tooltip" data-original-title="Follow us">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a target="_blank" href="https://www.facebook.com/creativetim" class="btn btn-icon btn-facebook btn-round" data-toggle="tooltip" data-original-title="Like us">
-                <i class="fab fa-facebook-square"></i>
-              </a>
-              <a target="_blank" href="https://dribbble.com/creativetim" class="btn btn-icon btn-dribbble  btn-round" data-toggle="tooltip" data-original-title="Follow us">
-                <i class="fab fa-dribbble"></i>
-              </a>
+          <div class="col-lg-8 col-md-8">
+            <div class="card card-register">
+              <div class="card-header">
+                <img class="card-img" src="../assets/img/square1.png" alt="Card image">
+                <h4 class="card-title ml-2">post</h4>
+              </div>
+              <div class="card-body">
+                <form class="form">
+                    <label for="postText"><i class="tim-icons icon-notes text-lg-center"></i></label>
+                    <textarea id="postText" class="form-control" placeholder="Escreva seu post aqui" maxlength="200"></textarea>
+                </form>
+              </div>
+              <div class="card-footer">
+                <a href="javascript:void(0)" id="publishingBtn" class="btn btn-info btn-round btn-lg">Publique</a>
+              </div>
             </div>
+            <div class="mb-3">
+                <small class="text-uppercase font-weight-bold">AUTOR DO POST:</small> HERE
+              </div>
+              <!-- Nav tabs -->
+              <div class="card">
+
+                <div class="card-body">
+                  <!-- Tab panes -->
+                  <div class="tab-content tab-space">
+                    <div class="tab-pane active" id="link1">
+                      <big><p class="text-lg-left">Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.
+                        <br/>
+                        <br/> Dramatically visualize customer directed convergence without revolutionary ROI.</p></big>
+                    </div>
+                  </div>
+                </div>
+              </div>
           </div>
-          <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+          <div class="col-lg-4 col-md-4 ml-auto mr-auto">
             <div class="card card-coin card-plain">
               <div class="card-header">
                 <img src="../assets/img/mike.jpg" class="img-center img-fluid rounded-circle">
-                <h4 class="title">Transactions</h4>
+                <h2 class="title" id="userName"></h2>
+                <h4 class="text-center" id="userEmail"></h4>
               </div>
-              <div class="card-body">
-                <ul class="nav nav-tabs nav-tabs-primary justify-content-center">
-                  <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#linka">
-                      Wallet
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#linkb">
-                      Send
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#linkc">
-                      News
-                    </a>
-                  </li>
-                </ul>
                 <div class="tab-content tab-subcategories">
                   <div class="tab-pane active" id="linka">
                     <div class="table-responsive">
+                      <h2>AQUI VAI AMIGOS RECOMENDADOS</h2>
                       <table class="table tablesorter " id="plain-table">
                         <thead class=" text-primary">
                           <tr>
@@ -200,36 +221,6 @@
                       </div>
                     </div>
                     <button type="submit" class="btn btn-simple btn-primary btn-icon btn-round float-right"><i class="tim-icons icon-send"></i></button>
-                  </div>
-                  <div class="tab-pane" id="linkc">
-                    <div class="table-responsive">
-                      <table class="table tablesorter " id="plain-table">
-                        <thead class=" text-primary">
-                          <tr>
-                            <th class="header">
-                              Latest Crypto News
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              The Daily: Nexo to Pay on Stable...
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              Venezuela Begins Public of Nation...
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              PR: BitCanna – Dutch Blockchain...
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -447,11 +438,6 @@
       </div>
     </footer>
   </div>
-  <!--   Core JS Files   -->
-
-
-
-  <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
   <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
   <script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -462,43 +448,35 @@
   <script src="../assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
   <script src="../assets/demo/demo.js"></script>
   <script src="../assets/js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
-
   <script>
-
-        $.post("../api/user.php",
+    $(document).ready(function(){
+      $("#publishingBtn").click(function(){
+        $.post("../api/post.php",
                 {
-                  user_id: localStorage.getItem("user_id"),
+                  post: document.getElementById("postText").value,
+                  user_id: localStorage.getItem("user_id")
                 },
                 function(data){
-          console.log("bateu");
                   let obj = JSON.parse(data);
+                  console.log(obj);
                   if(obj.status == 200) {
-                    // localStorage.setItem("user_id", obj.data.user_id);
-                    // window.location.href = "user/profile.html";
-                    alert("foi")
+                    alert("foi");
+                    window.location.reload();
                   } else {
-                    alert("Usuário ou senha inválida")
+                    alert("Erro ao publicar")
                   }
                 });
+      });
+    });
   </script>
-
-  <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
-  <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
-  <script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-  <script src="../assets/js/plugins/bootstrap-switch.js"></script>
-  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="../assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
-  <!-- Chart JS -->
-  <script src="../assets/js/plugins/chartjs.min.js"></script>
-  <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
-  <script src="../assets/js/plugins/moment.min.js"></script>
-  <script src="../assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
-  <!-- Black Dashboard DEMO methods, don't include it in your project! -->
-  <script src="../assets/demo/demo.js"></script>
-  <!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
+  <script>
+    $(document).ready(function(){
+      $("#logoutBtn").click(function(){
+        localStorage.removeItem("user_id");
+        window.location.replace("../index.html");
+      });
+    });
+  </script>
 </body>
 
 </html>

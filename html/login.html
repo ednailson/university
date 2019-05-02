@@ -17,24 +17,45 @@
             <div class="jumbotron">
                 <h1 class="display-4">login</h1>
                 <hr class="my-4">
-                <form method="post" action="login.php">
+                <form method="post">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Usuário</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Usuário" name="user">
+                        <label for="user">Usuário</label>
+                        <input type="text" class="form-control" id="user" placeholder="Usuário" name="user">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Senha</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" name="password">
+                        <label for="password">Senha</label>
+                        <input type="password" class="form-control" id="password" placeholder="Senha" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
                     <a class="btn btn-secondary" href="signup.html" role="button">Cadastro</a>
                 </form>
+                <button type="submit" id="loginBtn" class="btn btn-primary">Login</button>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#loginBtn").click(function(){
+            $.post("api/login.php",
+                {
+                    username: document.getElementById("user").value,
+                    password: document.getElementById("password").value
+                },
+                function(data){
+                    let obj = JSON.parse(data);
+                    if(obj.status == 200) {
+                        localStorage.setItem("user_id", obj.data.user_id);
+                        window.location.href = "index.html";
+                        // alert("Cadastro realizado com sucesso");
+                    } else {
+                        alert("Usuário ou senha inválida")
+                    }
+                });
+        });
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>

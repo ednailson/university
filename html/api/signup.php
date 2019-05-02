@@ -22,7 +22,7 @@ try{
         echo json_encode($data);
     }
     else{
-        $data=array("status"=>"0","message"=>"Please enter proper request method !! ");
+        $data=array("status"=>"400","message"=>"Please enter proper request method !! ");
         echo json_encode($data);
     }
 

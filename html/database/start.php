@@ -44,3 +44,5 @@ $conn->query("ALTER TABLE `friendship` ADD CONSTRAINT `fk_user_2` FOREIGN KEY ( 
 $conn->query("ALTER TABLE `posts` ADD CONSTRAINT `fk_user_id` FOREIGN KEY ( `fk_user_id` ) REFERENCES `users` ( `user_id` );");
 $conn->query("ALTER TABLE `friendship_posts` ADD CONSTRAINT `fk_user_id` FOREIGN KEY ( `fk_user_id` ) REFERENCES `users` ( `user_id` );");
 $conn->query("ALTER TABLE `friendship_posts` ADD CONSTRAINT `fk_post_id` FOREIGN KEY ( `fk_post_id` ) REFERENCES `posts` ( `post_id` );");
+
+header('Location: ../index.html');

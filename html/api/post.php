@@ -10,7 +10,8 @@ try{
             case 'POST':
                 $u = $_REQUEST['user_id'];
                 $p = $_REQUEST['post'];
-                $result = $conn->query("INSERT INTO posts (fk_user_id, text) VALUES (\"$u\", \"$p\")");
+                $i = $_REQUEST['image'];
+                $result = $conn->query("INSERT INTO posts (fk_user_id, text, images) VALUES (\"$u\", \"$p\", \"$i\")");
                 if (!$result) {
                     $data=array("status"=>"400","message"=>"Error creating post");
                     break;
@@ -19,13 +20,13 @@ try{
                 break;
             case 'GET':
                 $u = $_REQUEST['user_id'];
-                $result = $conn->query("SELECT * FROM posts WHERE fk_user_id = \"$u\" ORDER BY date");
+                $result = $conn->query("SELECT posts.post_id, posts.text, posts.images, posts.date, posts.fk_user_id, users.username, users.name FROM friendship_posts AS fp INNER JOIN posts INNER JOIN users WHERE fp.fk_user_id = \"$u\" AND fp.fk_post_id = posts.post_id AND posts.fk_user_id = users.user_id ORDER BY posts.date");
                 if (!$result) {
                     $data=array("status"=>"400","message"=>"Error creating post");
                     break;
                 }
                 foreach ($result->fetch_all() as $key => $value) {
-                    $temp_cat[] = array("post_id"=>$value[0],"text"=>$value[1],"images"=>$value[2],"date"=>$value[3]);
+                    $temp_cat[] = array("post_id"=>$value[0],"text"=>$value[1],"images"=>$value[2],"date"=>$value[3],"fk_user_id"=>$value[4],"username"=>$value[5],"user"=>$value[6]);
                 }
                 $data=array("status"=>"200","data"=>$temp_cat);
                 break;

@@ -12,7 +12,8 @@ if ($conn->connect_error) {
 $conn->query("CREATE TABLE friendship(
    friendship_id INT AUTO_INCREMENT PRIMARY KEY,
    fk_user_1 INT,
-   fk_user_2 INT
+   fk_user_2 INT,
+   pendent TINYINT
 );");
 
 $conn->query("CREATE TABLE users(

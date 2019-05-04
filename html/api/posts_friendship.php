@@ -9,7 +9,7 @@ try{
         {
             case 'POST':
                 $u = $_REQUEST['user_id'];
-                $result = $conn->query("SELECT posts.post_id, posts.text, posts.images, posts.date, posts.fk_user_id, users.username, users.name FROM friendship_posts AS fp INNER JOIN posts INNER JOIN users WHERE fp.fk_user_id = \"$u\" AND fp.fk_post_id = posts.post_id AND posts.fk_user_id = users.user_id ORDER BY posts.date");
+                $result = $conn->query("SELECT posts.post_id, posts.text, posts.images, posts.date, posts.fk_user_id, users.username, users.name FROM friendship_posts AS fp INNER JOIN posts INNER JOIN users WHERE fp.fk_user_id = \"$u\" AND fp.fk_post_id = posts.post_id AND posts.fk_user_id = users.user_id ORDER BY posts.date DESC");
                 if (!$result) {
                     $data=array("status"=>"400","message"=>"Error creating post");
                     break;

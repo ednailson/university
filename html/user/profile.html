@@ -32,27 +32,29 @@
             });
   </script>
   <script>
-    $.post("../api/check_friendship.php",
-            {
-              user_friend: localStorage.getItem("user_profile"),
-              user_id: localStorage.getItem("user_id"),
-            },
-            function (data) {
-              let obj = JSON.parse(data);
-              if (obj.status == 200 && obj.data != null) {
-                if (!obj.data.friendship_pending) {
-                  $('#friendshipButton').append('<button class="btn btn-warning btn-round" type="button" id="removeFriendBtn"><i class="tim-icons icon-simple-remove"></i> Remover amigo</button>')
-                } else {
-                  if (obj.data.user_logged_asked) {
-                    $('#friendshipButton').append('<button class="btn btn-warning btn-round" type="button" id="cancelFriendshipAskBtn"><i class="tim-icons icon-simple-remove"></i> Cancelar pedido de amizade</button>')
+    if (localStorage.getItem("user_profile") != localStorage.getItem("user_id")) {
+      $.post("../api/check_friendship.php",
+              {
+                user_friend: localStorage.getItem("user_profile"),
+                user_id: localStorage.getItem("user_id"),
+              },
+              function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200 && obj.data != null) {
+                  if (!obj.data.friendship_pending) {
+                    $('#friendshipButton').append('<button class="btn btn-warning btn-round" type="button" id="removeFriendBtn"><i class="tim-icons icon-simple-remove"></i> Remover amigo</button>')
                   } else {
-                    $('#friendshipButton').append('<button class="btn btn-info btn-round" type="button" id="acceptFriendshipBtn"><i class="tim-icons icon-simple-add"></i> Aceitar pedido de amizade</button>')
+                    if (obj.data.user_logged_asked) {
+                      $('#friendshipButton').append('<button class="btn btn-warning btn-round" type="button" id="cancelFriendshipAskBtn"><i class="tim-icons icon-simple-remove"></i> Cancelar pedido de amizade</button>')
+                    } else {
+                      $('#friendshipButton').append('<button class="btn btn-info btn-round" type="button" id="acceptFriendshipBtn"><i class="tim-icons icon-simple-add"></i> Aceitar pedido de amizade</button>')
+                    }
                   }
+                } else if (obj.status == 404) {
+                  $('#friendshipButton').append('<button class="btn btn-primary btn-round" id="addFriendBtn" type="button"><i class="tim-icons icon-simple-add"></i> Adicionar amigo</button>');
                 }
-              } else if (obj.status == 404) {
-                $('#friendshipButton').append('<button class="btn btn-primary btn-round" id="addFriendBtn" type="button"><i class="tim-icons icon-simple-add"></i> Adicionar amigo</button>');
-              }
-            });
+              });
+    }
   </script>
   <script>
     $.get("../api/posts_user.php",

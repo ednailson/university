@@ -12,7 +12,7 @@ try{
                 $p = $_REQUEST['password'];
                 $result = $conn->query("SELECT * FROM users WHERE username = \"$u\" AND password = \"$p\"");
                 if (!$result) {
-                    $data=array("status"=>"404","message"=>"not found");
+                    $data=array("status"=>"404","message"=>"not found!");
                     break;
                 }
                 foreach ($result->fetch_all() as $key => $value) {

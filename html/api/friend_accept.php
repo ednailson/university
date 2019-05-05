@@ -15,6 +15,22 @@ try{
                     $data=array("status"=>"400","message"=>"Error getting friendship");
                     break;
                 }
+                $result = $conn->query("SELECT post_id FROM posts WHERE fk_user_id = \"$u\"");
+                if (!$result) {
+                    $data=array("status"=>"400","message"=>"Error adding friend");
+                    break;
+                }
+                foreach ($result->fetch_all() as $key => $value) {
+                    $r = $conn->query("INSERT INTO friendship_posts (fk_post_id, fk_user_id) VALUE (\"$value[0]\", \"$f\")");
+                }
+                $result = $conn->query("SELECT post_id FROM posts WHERE fk_user_id = \"$f\"");
+                if (!$result) {
+                    $data=array("status"=>"400","message"=>"Error adding friend");
+                    break;
+                }
+                foreach ($result->fetch_all() as $key => $value) {
+                    $r = $conn->query("INSERT INTO friendship_posts (fk_post_id, fk_user_id) VALUE (\"$value[0]\", \"$u\")");
+                }
                 $data=array("status"=>"200","data"=>"Success updating friendship");
         }
         if ($data == null) {

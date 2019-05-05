@@ -12,7 +12,7 @@ try{
                 $f = $_REQUEST['user_friend'];
                 $result = $conn->query("INSERT INTO friendship (fk_user_1, fk_user_2) VALUES (\"$u\", \"$f\")");
                 if (!$result) {
-                    $data=array("status"=>"400","message"=>"Error removing friendship");
+                    $data=array("status"=>"400","message"=>"Error adding friend");
                     break;
                 }
                 $data=array("status"=>"200","data"=>"Success removing friendship");

@@ -19,6 +19,19 @@ try{
                 }
                 $data=array("status"=>"200","data"=>$temp_cat);
                 break;
+            case 'GET':
+                $u = $_REQUEST['user_name'];
+                $result = $conn->query("SELECT * FROM users WHERE name = \"$u\"");
+                if (!$result) {
+                    $data=array("status"=>"404","message"=>"not found");
+                    break;
+                }
+                foreach ($result->fetch_all() as $key => $value) {
+                    $temp_cat[] = array("user_id"=>$value[0],"username"=>$value[1],"photo"=>$value[5],"name"=>$value[2],"email"=>$value[4]);
+                }
+                $data=array("status"=>"200","data"=>$temp_cat);
+                break;
+
         }
         echo json_encode($data);
     }

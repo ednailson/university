@@ -41,6 +41,17 @@
               if (obj.status == 200 && obj.data != null) {
                 document.getElementById("userName").innerHTML = obj.data.name;
                 document.getElementById("userEmail").innerHTML = obj.data.email;
+                function createCard3(cardData) {
+                  let cardTemplate = [
+                    '<img src="',(cardData.photo != null) ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
+                  ];
+                  return $(cardTemplate.join(''));
+                }
+                let cards = $();
+                cards = cards.add(createCard3(obj.data));
+                $(function () {
+                  $('#profileImg').append(cards);
+                });
               } else {
                 window.location.href = "../index.html";
               }
@@ -191,7 +202,8 @@
         <div class="col-lg-6 col-md-6 ml-auto mr-auto">
           <div class="card card-coin card-plain">
             <div class="card-header" id="userProfile">
-              <img src="../assets/img/mike.jpg" class="img-center img-fluid rounded-circle">
+              <div id="profileImg">
+              </div>
               <h2 class="title" id="userName"></h2>
               <h4 class="text-center" id="userEmail"></h4>
               <div id="friendshipButton"></div>

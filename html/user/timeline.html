@@ -26,6 +26,17 @@
                 if (obj.status == 200 && obj.data != null) {
                     document.getElementById("userName").innerHTML = obj.data.name;
                     document.getElementById("userEmail").innerHTML = obj.data.email;
+                    function createCard3(cardData) {
+                        let cardTemplate = [
+                            '<img src="',(cardData.photo != null) ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
+                        ];
+                        return $(cardTemplate.join(''));
+                    }
+                    let cards = $();
+                    cards = cards.add(createCard3(obj.data));
+                    $(function () {
+                        $('#profileImg').append(cards);
+                    });
                 } else {
                     window.location.href = "../index.html";
                 }
@@ -69,7 +80,7 @@
                         $('#wholePosts').append(cards);
                     });
                 } else {
-                    alert("Algo deu errado, reinicie a página!")
+                    // alert("Algo deu errado, reinicie a página!")
                 }
             });
     </script>
@@ -171,63 +182,34 @@
                 <div class="col-lg-4 col-md-4 ml-auto mr-auto">
                     <div class="card card-coin card-plain">
                         <div class="card-header" id="userProfile">
-                            <img src="../assets/img/mike.jpg" class="img-center img-fluid rounded-circle">
+                            <div id="profileImg">
+
+                            </div>
+<!--                            <img src="../assets/img/mike.jpg" class="img-center img-fluid rounded-circle">-->
                             <button class="btn btn-link btn-info mt-4" id="userName" style="font-size: 35px;" onclick="goToProfile(localStorage.getItem('user_id'))">Info</button>
-<!--                            <h2 class="title" id="userName"></h2>-->
                             <h4 class="text-center" id="userEmail"></h4>
                         </div>
                         <div class="tab-content tab-subcategories">
+                            <div class="form-group">
+                                <input type="text" value="" placeholder="Procure por nome" class="form-control" id="userNameInput"/>
+                            </div>
+                            <button class="btn btn-primary btn-round btn-sm pull-right" type="button" id="searchBtn">
+                                <i class="tim-icons icon-zoom-split"></i>
+                            </button>
                             <div class="tab-pane active" id="linka">
                                 <div class="table-responsive">
-                                    <h2>AQUI VAI AMIGOS RECOMENDADOS</h2>
                                     <table class="table tablesorter " id="plain-table">
                                         <thead class=" text-primary">
                                         <tr>
                                             <th class="header">
-                                                COIN
+                                                FOTO
                                             </th>
                                             <th class="header">
-                                                AMOUNT
-                                            </th>
-                                            <th class="header">
-                                                VALUE
+                                                USUARIO
                                             </th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                BTC
-                                            </td>
-                                            <td>
-                                                7.342
-                                            </td>
-                                            <td>
-                                                48,870.75 USD
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                ETH
-                                            </td>
-                                            <td>
-                                                30.737
-                                            </td>
-                                            <td>
-                                                64,53.30 USD
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                XRP
-                                            </td>
-                                            <td>
-                                                19.242
-                                            </td>
-                                            <td>
-                                                18,354.96 USD
-                                            </td>
-                                        </tr>
+                                        <tbody id="searchedFriends">
                                         </tbody>
                                     </table>
                                 </div>
@@ -314,6 +296,48 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function () {
+        $("#searchBtn").click(function () {
+            $.get("../api/user.php",
+                {
+                    user_name: document.getElementById("userNameInput").value,
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200) {
+                        function createCard2(cardData) {
+                            let cardTemplate = [
+                                '<tr>',
+                                '<td>',
+                                '<img src="',(cardData.photo != null) ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 40px;">',
+                                '</td>',
+                                '<td>',
+                                '<button class="btn btn-link btn-info" onclick="goToProfile(',cardData.user_id,')">',
+                                cardData.name,
+                                '</button>',
+                                '</td>',
+                                '</tr>',
+                            ];
+                            return $(cardTemplate.join(''));
+                        }
+                        let cards = $();
+                        for (let i = obj.data.length - 1; i > -1; i--) {
+                            console.log("for");
+                            cards = cards.add(createCard2(obj.data[i]));
+                        }
+                        $(function () {
+                            $('#searchedFriends').append(cards);
+                        });
+                    } else {
+                        alert("Nenhum usuario foi encontrado com esse nome")
+                    }
+                });
+        });
+    });
+</script>
+
 <script>
     $(document).ready(function () {
         $("#logoutBtn").click(function () {

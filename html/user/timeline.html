@@ -38,7 +38,6 @@
             },
             function (data) {
                 let obj = JSON.parse(data);
-                console.log("posts", obj);
                 if (obj.status == 200 && obj.data != null) {
                     function createCard(cardData) {
                         let cardTemplate = [
@@ -61,14 +60,14 @@
                         return $(cardTemplate.join(''));
                     }
                     let cards = $();
-                    obj.data.forEach(function (item, i) {
-                        cards = cards.add(createCard(item));
-                    });
+                    for (let i = obj.data.length - 1; i > -1; i--) {
+                        cards = cards.add(createCard(obj.data[i]));
+                    }
                     $(function () {
                         $('#wholePosts').append(cards);
                     });
                 } else {
-                    // window.location.href = "../index.html";
+                    alert("Algo deu errado, reinicie a página!")
                 }
             });
     </script>

@@ -9,13 +9,13 @@ try{
         {
             case 'GET':
                 $u = $_REQUEST['user_id'];
-                $result = $conn->query("SELECT users.username, users.name, users.user_id, users.photo FROM friendship AS f INNER JOIN users WHERE f.pending = \"0\" AND fk_user_1 = \"$u\" AND f.fk_user_2 = users.user_id OR fk_user_2 = \"$u\" AND f.fk_user_1 = users.user_id");
+                $result = $conn->query("SELECT posts.post_id, posts.text, posts.images, posts.date, posts.fk_user_id, users.username, users.name FROM posts INNER JOIN users WHERE posts.fk_user_id = \"$u\" AND posts.fk_user_id = users.user_id ORDER BY posts.date");
                 if (!$result) {
-                    $data=array("status"=>"400","message"=>"Error getting friendship");
+                    $data=array("status"=>"400","message"=>"Error creating post");
                     break;
                 }
                 foreach ($result->fetch_all() as $key => $value) {
-                    $temp_cat[] = array("user_id"=>$value[2],"username"=>$value[0],"name"=>$value[1],"photo"=>$value[3]);
+                    $temp_cat[] = array("post_id"=>$value[0],"text"=>$value[1],"images"=>$value[2],"date"=>$value[3],"fk_user_id"=>$value[4],"username"=>$value[5],"user"=>$value[6]);
                 }
                 $data=array("status"=>"200","data"=>$temp_cat);
                 break;

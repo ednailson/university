@@ -43,7 +43,9 @@
                         let cardTemplate = [
                             '<div class="mb-3">',
                             '<small class="text-uppercase font-weight-bold">AUTOR DO POST :</small>',
+                            '<button class="btn btn-link btn-info" onclick="goToProfile(',cardData.fk_user_id,')">',
                             cardData.user,
+                            '</button>',
                             '</div>',
                             '<div class="card">',
                                 '<div class="card-body">',
@@ -170,7 +172,8 @@
                     <div class="card card-coin card-plain">
                         <div class="card-header" id="userProfile">
                             <img src="../assets/img/mike.jpg" class="img-center img-fluid rounded-circle">
-                            <h2 class="title" id="userName"></h2>
+                            <button class="btn btn-link btn-info mt-4" id="userName" style="font-size: 35px;" onclick="goToProfile(localStorage.getItem('user_id'))">Info</button>
+<!--                            <h2 class="title" id="userName"></h2>-->
                             <h4 class="text-center" id="userEmail"></h4>
                         </div>
                         <div class="tab-content tab-subcategories">
@@ -303,7 +306,6 @@
                     let obj = JSON.parse(data);
                     console.log(obj);
                     if (obj.status == 200) {
-                        alert("foi");
                         window.location.reload();
                     } else {
                         alert("Erro ao publicar")
@@ -316,9 +318,16 @@
     $(document).ready(function () {
         $("#logoutBtn").click(function () {
             localStorage.removeItem("user_id");
+            localStorage.removeItem("user_profile");
             window.location.replace("../index.html");
         });
     });
+</script>
+<script>
+    function goToProfile(i) {
+        localStorage.setItem("user_profile", i);
+        window.location.replace("profile.html");
+    }
 </script>
 </body>
 

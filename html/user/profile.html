@@ -18,6 +18,21 @@
   <script>
     $.post("../api/user.php",
             {
+              user_id: localStorage.getItem("user_id"),
+            },
+            function (data) {
+              let obj = JSON.parse(data);
+              console.log(obj);
+              if (obj.status == 200 && obj.data != null) {
+                console.log("logged")
+              } else {
+                window.location.href = "../index.html";
+              }
+            });
+  </script>
+  <script>
+    $.post("../api/user.php",
+            {
               user_id: localStorage.getItem("user_profile"),
             },
             function (data) {
@@ -92,7 +107,7 @@
                   $('#wholePosts').append(cards);
                 });
               } else {
-                alert("Algo deu errado, reinicie a página!")
+                // alert("Algo deu errado, reinicie a página!")
               }
             });
   </script>
@@ -243,8 +258,85 @@
 </script>
 <script>
   $(document).ready(function () {
+    $("#acceptFriendshipBtn").click(function () {
+      $.post("../api/friend_accept.php",
+              {
+                user_friend: localStorage.getItem("user_profile"),
+                user_id: localStorage.getItem("user_id")
+              },
+              function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                  window.location.reload();
+                } else {
+                  alert("Erro ao aceitar")
+                }
+              });
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#removeFriendBtn").click(function () {
+      $.post("../api/remove_friend.php",
+              {
+                user_friend: localStorage.getItem("user_profile"),
+                user_id: localStorage.getItem("user_id")
+              },
+              function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                  window.location.reload();
+                } else {
+                  alert("Erro ao remover amigo")
+                }
+              });
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#cancelFriendshipAskBtn").click(function () {
+      $.post("../api/remove_friend.php",
+              {
+                user_friend: localStorage.getItem("user_profile"),
+                user_id: localStorage.getItem("user_id")
+              },
+              function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                  window.location.reload();
+                } else {
+                  alert("Erro ao cancelar amizade")
+                }
+              });
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#addFriendBtn").click(function () {
+      $.post("../api/add_friend.php",
+              {
+                user_friend: localStorage.getItem("user_profile"),
+                user_id: localStorage.getItem("user_id")
+              },
+              function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                  window.location.reload();
+                } else {
+                  alert("Erro ao adicionar")
+                }
+              });
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
     $("#logoutBtn").click(function () {
       localStorage.removeItem("user_id");
+      localStorage.removeItem("user_profile");
       window.location.replace("../index.html");
     });
   });

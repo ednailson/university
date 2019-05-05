@@ -34,6 +34,11 @@ try{
                         break;
                     }
                 }
+                $result = $conn->query("INSERT INTO friendship_posts (fk_post_id, fk_user_id) VALUES (\"$post_id\", \"$u\")");
+                if (!$result) {
+                    $data=array("status"=>"400","message"=>"Error relation post and user");
+                    break;
+                }
                 $data=array("status"=>"200","data"=>$post_id);
                 break;
             case 'GET':

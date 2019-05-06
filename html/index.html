@@ -167,6 +167,15 @@
                       </div>
                       <input class="form-control" placeholder="E-mail" id="userEmailSignUp" type="email">
                     </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="tim-icons icon-image-02"></i>
+                      </span>
+                      </div>
+                      <input class="form-control" placeholder="Foto(URL)" id="userPhotoSignUp" type="text">
+                    </div>
                 </div>
                 <div class="text-center">
                   <button type="button" id="signUpBtn" class="btn btn-info btn-round btn-lg my-4">Cadastrar</button>
@@ -221,6 +230,7 @@
                   username: document.getElementById("userIdSignUp").value,
                   password: document.getElementById("userPasswordSignUp").value,
                   name: document.getElementById("userNameSignUp").value,
+                  image: document.getElementById("userPhotoSignUp").value,
                   email: document.getElementById("userEmailSignUp").value
                 },
                 function(data){

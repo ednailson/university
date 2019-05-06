@@ -12,7 +12,8 @@ try{
                 $p = $_REQUEST['password'];
                 $e = $_REQUEST['email'];
                 $n = $_REQUEST['name'];
-                $result = $conn->query("INSERT INTO users (username, password, email, name) VALUES (\"$u\", \"$p\", \"$e\", \"$n\")");
+                $i = $_REQUEST['image'];
+                $result = $conn->query("INSERT INTO users (username, password, email, name, photo) VALUES (\"$u\", \"$p\", \"$e\", \"$n\", \"$i\")");
                 if (!$result) {
                     $data=array("status"=>"400","message"=>"Username or email already exists.");
                     break;

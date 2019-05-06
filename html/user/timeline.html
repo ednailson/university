@@ -22,7 +22,6 @@
             },
             function (data) {
                 let obj = JSON.parse(data);
-                console.log(obj);
                 if (obj.status == 200 && obj.data != null) {
                     document.getElementById("userName").innerHTML = obj.data.name;
                     document.getElementById("userEmail").innerHTML = obj.data.email;
@@ -49,6 +48,7 @@
             },
             function (data) {
                 let obj = JSON.parse(data);
+                console.log(obj);
                 if (obj.status == 200 && obj.data != null) {
                     function createCard(cardData) {
                         let cardTemplate = [
@@ -62,6 +62,7 @@
                                 '<div class="card-body">',
                                     '<div class="tab-content tab-space">',
                                         '<div class="tab-pane active" id="link1">',
+                                            '<img src=',(cardData.images !== "") ? cardData.images : 'http://www.surgesonelectric.com/wp-content/themes/azoomtheme/images/demo/demo-image-default.jpg',' alt="" class="img-fluid rounded shadow img-center mb-5" style="width: 200px;">',
                                             '<big><p class="text-lg-center">',
                                                 cardData.text,
                                             '</p></big>',
@@ -169,6 +170,13 @@
                         </div>
                         <div class="card-body">
                             <form class="form">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Adicione a url de sua imagem" id="postImagePublishing">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="tim-icons icon-image-02"></i></span>
+                                    </div>
+                                </div>
+
                                 <label for="postText"><i class="tim-icons icon-notes text-lg-center"></i></label>
                                 <textarea id="postText" class="form-control" placeholder="Escreva seu post aqui"
                                           maxlength="200"></textarea>
@@ -282,11 +290,11 @@
             $.post("../api/post.php",
                 {
                     post: document.getElementById("postText").value,
+                    image: document.getElementById("postImagePublishing").value,
                     user_id: localStorage.getItem("user_id")
                 },
                 function (data) {
                     let obj = JSON.parse(data);
-                    console.log(obj);
                     if (obj.status == 200) {
                         window.location.reload();
                     } else {
@@ -306,7 +314,7 @@
                 },
                 function (data) {
                     let obj = JSON.parse(data);
-                    if (obj.status == 200) {
+                    if (obj.status == 200 && obj.data != null) {
                         function createCard2(cardData) {
                             let cardTemplate = [
                                 '<tr>',
@@ -324,7 +332,6 @@
                         }
                         let cards = $();
                         for (let i = obj.data.length - 1; i > -1; i--) {
-                            console.log("for");
                             cards = cards.add(createCard2(obj.data[i]));
                         }
                         $(function () {

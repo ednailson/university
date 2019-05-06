@@ -48,7 +48,6 @@
             },
             function (data) {
                 let obj = JSON.parse(data);
-                console.log(obj);
                 if (obj.status == 200 && obj.data != null) {
                     function createCard(cardData) {
                         let cardTemplate = [
@@ -71,11 +70,14 @@
                                                 '   -  Curtidas: ', cardData.likes,
                                             '</b></p>',
                                             (cardData.liked === "1") ? ['<button class="btn btn-link btn-warning pull-right" onclick="unlikePost('+cardData.post_id+')"><i class="tim-icons icon-shape-star"></i> Descurtir</button>'] : ['<button class="btn btn-link btn-info pull-right" onclick="likePost('+cardData.post_id+')"><i class="tim-icons icon-shape-star"></i> Curtir</button>'],
-                                            '<br><br><br><br>',
+
+                            '<button class="btn btn-link btn-warning pull-right" onclick="deletePost('+cardData.post_id+')"><i class="tim-icons icon-trash-simple"></i> Excluir post</button>',
+
+                            '<br><br><br><br>',
                             (cardData.comments != null) ? function(cardData2) {
-                                    let comms = [];
+                                    let comms = '';
                                     cardData2.comments.forEach(function (element, index, array) {
-                                        comms.push('<p class="text-sm-center text-success">Comentario: '+ (index+1) + ': <b>' + element +'</b></p>')
+                                        comms += ('<p class="text-sm-center text-success">Comentario: '+ (index+1) + ': <b>' + element +'</b></p>')
                                     });
                                     return comms;
                                 }(cardData) : '',
@@ -387,16 +389,29 @@
                     window.location.reload();
                 }
             });
-        console.log()
+    }
+</script>
+<script>
+    function deletePost (i) {
+        let ok = window.confirm("Deseja excluir?");
+        if(ok){
+            $.post("../api/delete_post.php",
+                {
+                    post_id: i,
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200) {
+                        window.location.reload();
+                    } else {
+                        window.location.reload();
+                    }
+                });
+        }
     }
 </script>
 <script>
     function likePost(info) {
-        console.log({
-            post_id: info,
-            liked: 1,
-            user_id: localStorage.getItem("user_id")
-        });
         $.post("../api/like_post.php",
             {
                 post_id: info,

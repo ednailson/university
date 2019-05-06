@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <title>
+        SocialMedia
+    </title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet"/>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet"/>
+    <link href="../assets/css/blk-design-system.css?v=1.0.0" rel="stylesheet"/>
+    <link href="../assets/demo/demo.css" rel="stylesheet"/>
+    <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
+    <script>
+        $.post("../api/user.php",
+            {
+                user_id: localStorage.getItem("user_id"),
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                console.log(obj);
+                if (obj.status == 200 && obj.data != null) {
+                    console.log("logged")
+                } else {
+                    window.location.href = "../index.html";
+                }
+            });
+    </script>
+    <script>
+        $.post("../api/user.php",
+            {
+                user_id: localStorage.getItem("user_profile"),
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                console.log(obj);
+                if (obj.status == 200 && obj.data != null) {
+                    document.getElementById("userName").innerHTML = obj.data.name;
+                    document.getElementById("userEmail").innerHTML = obj.data.email;
+                    function createCard3(cardData) {
+                        let cardTemplate = [
+                            '<img src="',(cardData.photo !== "") ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
+                        ];
+                        return $(cardTemplate.join(''));
+                    }
+                    let cards = $();
+                    cards = cards.add(createCard3(obj.data));
+                    $(function () {
+                        $('#profileImg').append(cards);
+                    });
+                } else {
+                    window.location.href = "../index.html";
+                }
+            });
+    </script>
+    <script>
+        if (localStorage.getItem("user_profile") != localStorage.getItem("user_id")) {
+            $.post("../api/check_friendship.php",
+                {
+                    user_friend: localStorage.getItem("user_profile"),
+                    user_id: localStorage.getItem("user_id"),
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200 && obj.data != null) {
+                        if (!obj.data.friendship_pending) {
+                            $('#friendshipButton').append('<button class="btn btn-warning btn-round" type="button" id="removeFriendBtn"><i class="tim-icons icon-simple-remove"></i> Remover amigo</button>')
+                        } else {
+                            if (obj.data.user_logged_asked) {
+                                $('#friendshipButton').append('<button class="btn btn-warning btn-round" type="button" id="cancelFriendshipAskBtn"><i class="tim-icons icon-simple-remove"></i> Cancelar pedido de amizade</button>')
+                            } else {
+                                $('#friendshipButton').append('<button class="btn btn-info btn-round" type="button" id="acceptFriendshipBtn"><i class="tim-icons icon-simple-add"></i> Aceitar pedido de amizade</button>')
+                            }
+                        }
+                    } else if (obj.status == 404) {
+                        $('#friendshipButton').append('<button class="btn btn-primary btn-round" id="addFriendBtn" type="button"><i class="tim-icons icon-simple-add"></i> Adicionar amigo</button>');
+                    }
+                });
+        }
+    </script>
+</head>
+
+<body class="profile-page">
+<!-- Navbar -->
+<div id="testing"></div>
+<nav class="navbar navbar-expand-lg fixed-top navbar-transparent " color-on-scroll="100">
+    <div class="container">
+        <div class="navbar-translate">
+            <a class="navbar-brand" href="timeline.html" rel="tooltip" data-placement="bottom">
+                <span>SOCIAL•</span>MEDIA
+            </a>
+            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+                    aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <div class="navbar-collapse-header">
+                <div class="row">
+                    <div class="col-6 collapse-brand">
+                        <a>
+                            SOCIAL•MEDIA
+                        </a>
+                    </div>
+                    <div class="col-6 collapse-close text-right">
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navigation"
+                                aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="tim-icons icon-simple-remove"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <ul class="navbar-nav">
+                <li class="dropdown nav-item">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <i class="tim-icons icon-single-02"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-with-icons">
+                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#myModal1">
+                            <i class="tim-icons icon-button-power"></i> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="modal fade modal-mini modal-info modal-mini" id="myModal1" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="tim-icons icon-simple-remove text-white"></i>
+                </button>
+                <div class="modal-profile">
+                    <i class="tim-icons icon-single-02 text-info"></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p>Deseja realmente sair da sua conta?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link btn-neutral" id="logoutBtn">Sair</button>
+                <button type="button" class="btn btn-link btn-neutral" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="page-header">
+        <img src="../assets/img/dots.png" class="dots">
+        <img src="../assets/img/path4.png" class="path">
+        <div class="container align-items-center">
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="card card-coin card-plain">
+                        <div class="card-header" id="userProfile">
+                            <div id="profileImg">
+                            </div>
+                            <h2 class="title" id="userName"></h2>
+                            <h4 class="text-center" id="userEmail"></h4>
+                            <div id="friendshipButton"></div>
+                        </div>
+                    </div>
+                    <div class="card card-coin card-plain" style="margin-top: 100px;">
+                        <div class="card-header" id="2">
+                            <div id="3">
+                                <img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" class="img-center img-fluid rounded-circle">
+                            </div>
+                            <h2 class="title" id="4">cassca</h2>
+                            <h4 class="text-center" id="5">cascsa</h4>
+                            <div id="a"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="card card-coin card-plain">
+                        <div class="card-header" id="userProfile1">
+                            <div id="profileImg1">
+                            </div>
+                            <h2 class="title" id="userName1">1</h2>
+                            <h4 class="text-center" id="userEmail1">1</h4>
+                            <div id="friendshipButton1"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="card card-coin card-plain">
+                        <div class="card-header" id="userProfile2">
+                            <div id="profileImg2">
+                            </div>
+                            <h2 class="title" id="userName2">2</h2>
+                            <h4 class="text-center" id="userEmail2">2</h4>
+                            <div id="friendshipButton2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h1 class="title">SOCIAL•MEDIA</h1>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+<script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/plugins/bootstrap-switch.js"></script>
+<script src="../assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<script src="../assets/js/plugins/chartjs.min.js"></script>
+<script src="../assets/js/plugins/moment.min.js"></script>
+<script src="../assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+<script src="../assets/demo/demo.js"></script>
+<script src="../assets/js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $("#acceptFriendshipBtn").click(function () {
+            $.post("../api/friend_accept.php",
+                {
+                    user_friend: localStorage.getItem("user_profile"),
+                    user_id: localStorage.getItem("user_id")
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200) {
+                        window.location.reload();
+                    } else {
+                        alert("Erro ao aceitar")
+                    }
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#removeFriendBtn").click(function () {
+            $.post("../api/remove_friend.php",
+                {
+                    user_friend: localStorage.getItem("user_profile"),
+                    user_id: localStorage.getItem("user_id")
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200) {
+                        window.location.reload();
+                    } else {
+                        alert("Erro ao remover amigo")
+                    }
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#cancelFriendshipAskBtn").click(function () {
+            $.post("../api/remove_friend.php",
+                {
+                    user_friend: localStorage.getItem("user_profile"),
+                    user_id: localStorage.getItem("user_id")
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200) {
+                        window.location.reload();
+                    } else {
+                        alert("Erro ao cancelar amizade")
+                    }
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#addFriendBtn").click(function () {
+            $.post("../api/add_friend.php",
+                {
+                    user_friend: localStorage.getItem("user_profile"),
+                    user_id: localStorage.getItem("user_id")
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200) {
+                        window.location.reload();
+                    } else {
+                        alert("Erro ao adicionar")
+                    }
+                });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#logoutBtn").click(function () {
+            localStorage.removeItem("user_id");
+            localStorage.removeItem("user_profile");
+            window.location.replace("../index.html");
+        });
+    });
+</script>
+</body>
+
+</html>

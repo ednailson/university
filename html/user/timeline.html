@@ -27,7 +27,7 @@
                     document.getElementById("userEmail").innerHTML = obj.data.email;
                     function createCard3(cardData) {
                         let cardTemplate = [
-                            '<img src="',(cardData.photo != null) ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
+                            '<img src="',(cardData.photo !== "") ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
                         ];
                         return $(cardTemplate.join(''));
                     }
@@ -61,14 +61,26 @@
                             '<div class="card">',
                                 '<div class="card-body">',
                                     '<div class="tab-content tab-space">',
-                                        '<div class="tab-pane active" id="link1">',
+                                        '<div class="tab-pane active" id="">',
                                             '<img src=',(cardData.images !== "") ? cardData.images : 'http://www.surgesonelectric.com/wp-content/themes/azoomtheme/images/demo/demo-image-default.jpg',' alt="" class="img-fluid rounded shadow img-center mb-5" style="width: 200px;">',
                                             '<big><p class="text-lg-center">',
                                                 cardData.text,
                                             '</p></big>',
                                             '<p class="text-sm-left text-body mt-5" style="margin-bottom: -50px;"><b>Data da publicação: ',
                                                 cardData.date,
+                                                '   -  Curtidas: ', cardData.likes,
                                             '</b></p>',
+                                            (cardData.liked === "1") ? ['<button class="btn btn-link btn-warning pull-right" onclick="unlikePost('+cardData.post_id+')"><i class="tim-icons icon-shape-star"></i> Descurtir</button>'] : ['<button class="btn btn-link btn-info pull-right" onclick="likePost('+cardData.post_id+')"><i class="tim-icons icon-shape-star"></i> Curtir</button>'],
+                                            '<br><br><br><br>',
+                            (cardData.comments != null) ? function(cardData2) {
+                                    let comms = [];
+                                    cardData2.comments.forEach(function (element, index, array) {
+                                        comms.push('<p class="text-sm-center text-success">Comentario: '+ (index+1) + ': <b>' + element +'</b></p>')
+                                    });
+                                    return comms;
+                                }(cardData) : '',
+                            '<input type="text" class="form-control mt-4" placeholder="Comentário" id="comment-post-'+cardData.post_id+'">',
+                            '<button class="btn btn-info pull-right mt-3" onclick="publishComment('+ cardData.post_id + ')">Publicar comentario</button>',
                             '</div></div></div></div>'
                         ];
                         return $(cardTemplate.join(''));
@@ -319,7 +331,7 @@
                             let cardTemplate = [
                                 '<tr>',
                                 '<td>',
-                                '<img src="',(cardData.photo != null) ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 40px;">',
+                                '<img src="',(cardData.photo !== "") ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 40px;">',
                                 '</td>',
                                 '<td>',
                                 '<button class="btn btn-link btn-info" onclick="goToProfile(',cardData.user_id,')">',
@@ -358,6 +370,65 @@
     function goToProfile(i) {
         localStorage.setItem("user_profile", i);
         window.location.replace("profile.html");
+    }
+</script>
+<script>
+    function publishComment (i) {
+        $.post("../api/add_comment.php",
+            {
+                comment: document.getElementById("comment-post-" + i).value,
+                post_id: i,
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                    window.location.reload();
+                } else {
+                    window.location.reload();
+                }
+            });
+        console.log()
+    }
+</script>
+<script>
+    function likePost(info) {
+        console.log({
+            post_id: info,
+            liked: 1,
+            user_id: localStorage.getItem("user_id")
+        });
+        $.post("../api/like_post.php",
+            {
+                post_id: info,
+                liked: 1,
+                user_id: localStorage.getItem("user_id")
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                    window.location.reload();
+                } else {
+                    window.location.reload();
+                }
+            });
+    }
+</script>
+<script>
+    function unlikePost(info) {
+        $.post("../api/like_post.php",
+            {
+                post_id: info,
+                liked: 0,
+                user_id: localStorage.getItem("user_id")
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                    window.location.reload();
+                } else {
+                    window.location.reload();
+                }
+            });
     }
 </script>
 </body>

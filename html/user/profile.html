@@ -43,7 +43,7 @@
                 document.getElementById("userEmail").innerHTML = obj.data.email;
                 function createCard3(cardData) {
                   let cardTemplate = [
-                    '<img src="',(cardData.photo != null) ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
+                    '<img src="',(cardData.photo !== "") ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
                   ];
                   return $(cardTemplate.join(''));
                 }
@@ -297,12 +297,13 @@
                 user_id: localStorage.getItem("user_id")
               },
               function (data) {
-                let obj = JSON.parse(data);
-                if (obj.status == 200) {
-                  window.location.reload();
-                } else {
-                  alert("Erro ao remover amigo")
-                }
+                window.location.reload();
+                // let obj = JSON.parse(data);
+                // if (obj.status == 200) {
+                //   window.location.reload();
+                // } else {
+                //   alert("Erro ao remover amigo")
+                // }
               });
     });
   });
@@ -316,12 +317,13 @@
                 user_id: localStorage.getItem("user_id")
               },
               function (data) {
-                let obj = JSON.parse(data);
-                if (obj.status == 200) {
-                  window.location.reload();
-                } else {
-                  alert("Erro ao cancelar amizade")
-                }
+                window.location.reload();
+                // let obj = JSON.parse(data);
+                // if (obj.status == 200) {
+                //   window.location.reload();
+                // } else {
+                //   alert("Erro ao cancelar amizade")
+                // }
               });
     });
   });

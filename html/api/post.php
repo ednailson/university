@@ -22,7 +22,7 @@ try{
                     break;
                 }
                 $post_id = $result->fetch_all()[0][0];
-                $result2 = $conn->query("SELECT users.user_id FROM friendship AS f INNER JOIN users WHERE fk_user_1 = \"$u\" AND f.fk_user_2 = users.user_id OR fk_user_2 = \"$u\" AND f.fk_user_1 = users.user_id");
+                $result2 = $conn->query("SELECT users.user_id FROM friendship AS f INNER JOIN users WHERE fk_user_1 = \"$u\" AND f.fk_user_2 = users.user_id OR fk_user_2 = \"$u\" AND f.fk_user_1 = users.user_id AND f.pending = 0");
                 if (!$result2) {
                     $data=array("status"=>"400","message"=>"Error getting friendship");
                     break;

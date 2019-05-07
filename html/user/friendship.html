@@ -31,56 +31,46 @@
             });
     </script>
     <script>
-        $.post("../api/user.php",
+        $.post("../api/friendship.php",
             {
-                user_id: localStorage.getItem("user_profile"),
+                user_id: localStorage.getItem("user_id"),
             },
             function (data) {
                 let obj = JSON.parse(data);
-                console.log(obj);
+                console.log("h",obj);
                 if (obj.status == 200 && obj.data != null) {
-                    document.getElementById("userName").innerHTML = obj.data.name;
-                    document.getElementById("userEmail").innerHTML = obj.data.email;
-                    function createCard3(cardData) {
-                        let cardTemplate = [
-                            '<img src="',(cardData.photo !== "") ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
-                        ];
+                    function createCard(cardData) {
+                            let cardTemplate = [
+                                '<div class="card card-coin card-plain" style="margin-top: 150px;">',
+                                '<div class="card-header" id="userProfile">',
+                                '<img src="',(cardData.photo !== "") ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle" style="width: 150px;">',
+                                '<h2 class="title">',
+                                cardData.name,
+                                '</h2>',
+                                (cardData.user_logged_asked) ? '<button class="btn btn-warning btn-round" type="button" onclick="cancelFriendshipAskBtn('+cardData.user_id+')"><i class="tim-icons icon-simple-remove"></i> Cancelar pedido de amizade</button>' : '<button class="btn btn-info btn-round" type="button" onclick="acceptFriendshipBtn('+cardData.user_id+')"><i class="tim-icons icon-simple-add"></i> Aceitar pedido de amizade</button>',
+                                '</div>',
+                                '</div>',
+                            ];
                         return $(cardTemplate.join(''));
                     }
                     let cards = $();
-                    cards = cards.add(createCard3(obj.data));
+                    let cards2 = $();
+                    for (let i = obj.data.length - 1; i > -1; i--) {
+                        if(obj.data[i].friendship_pending && obj.data[i].user_logged_asked){
+                            cards = cards.add(createCard(obj.data[i]));
+                        }
+                        if(obj.data[i].friendship_pending && !obj.data[i].user_logged_asked){
+                            cards2 = cards2.add(createCard(obj.data[i]));
+                        }
+                    }
                     $(function () {
-                        $('#profileImg').append(cards);
+                        $('#cancelarPedido').append(cards);
+                        $('#aceitarPedido').append(cards2);
                     });
-                } else {
-                    window.location.href = "../index.html";
+                } else if (obj.status == 404) {
+                    // $('#friendshipButton').append('<button class="btn btn-primary btn-round" id="addFriendBtn" type="button"><i class="tim-icons icon-simple-add"></i> Adicionar amigo</button>');
                 }
             });
-    </script>
-    <script>
-        if (localStorage.getItem("user_profile") != localStorage.getItem("user_id")) {
-            $.post("../api/check_friendship.php",
-                {
-                    user_friend: localStorage.getItem("user_profile"),
-                    user_id: localStorage.getItem("user_id"),
-                },
-                function (data) {
-                    let obj = JSON.parse(data);
-                    if (obj.status == 200 && obj.data != null) {
-                        if (!obj.data.friendship_pending) {
-                            $('#friendshipButton').append('<button class="btn btn-warning btn-round" type="button" id="removeFriendBtn"><i class="tim-icons icon-simple-remove"></i> Remover amigo</button>')
-                        } else {
-                            if (obj.data.user_logged_asked) {
-                                $('#friendshipButton').append('<button class="btn btn-warning btn-round" type="button" id="cancelFriendshipAskBtn"><i class="tim-icons icon-simple-remove"></i> Cancelar pedido de amizade</button>')
-                            } else {
-                                $('#friendshipButton').append('<button class="btn btn-info btn-round" type="button" id="acceptFriendshipBtn"><i class="tim-icons icon-simple-add"></i> Aceitar pedido de amizade</button>')
-                            }
-                        }
-                    } else if (obj.status == 404) {
-                        $('#friendshipButton').append('<button class="btn btn-primary btn-round" id="addFriendBtn" type="button"><i class="tim-icons icon-simple-add"></i> Adicionar amigo</button>');
-                    }
-                });
-        }
     </script>
 </head>
 
@@ -159,48 +149,11 @@
         <img src="../assets/img/path4.png" class="path">
         <div class="container align-items-center">
             <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-coin card-plain">
-                        <div class="card-header" id="userProfile">
-                            <div id="profileImg">
-                            </div>
-                            <h2 class="title" id="userName"></h2>
-                            <h4 class="text-center" id="userEmail"></h4>
-                            <div id="friendshipButton"></div>
-                        </div>
-                    </div>
-                    <div class="card card-coin card-plain" style="margin-top: 100px;">
-                        <div class="card-header" id="2">
-                            <div id="3">
-                                <img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" class="img-center img-fluid rounded-circle">
-                            </div>
-                            <h2 class="title" id="4">cassca</h2>
-                            <h4 class="text-center" id="5">cascsa</h4>
-                            <div id="a"></div>
-                        </div>
-                    </div>
+                <div class="col-lg-6 col-md-6" id="cancelarPedido">
+                    <h3 class="text-center">Esperando confirmação</h3>
                 </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-coin card-plain">
-                        <div class="card-header" id="userProfile1">
-                            <div id="profileImg1">
-                            </div>
-                            <h2 class="title" id="userName1">1</h2>
-                            <h4 class="text-center" id="userEmail1">1</h4>
-                            <div id="friendshipButton1"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-coin card-plain">
-                        <div class="card-header" id="userProfile2">
-                            <div id="profileImg2">
-                            </div>
-                            <h2 class="title" id="userName2">2</h2>
-                            <h4 class="text-center" id="userEmail2">2</h4>
-                            <div id="friendshipButton2"></div>
-                        </div>
-                    </div>
+                <div class="col-lg-6 col-md-6" id="aceitarPedido">
+                    <h3 class="text-center">Aceitar</h3>
                 </div>
             </div>
         </div>
@@ -228,61 +181,40 @@
 <script src="../assets/demo/demo.js"></script>
 <script src="../assets/js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
 <script>
-    $(document).ready(function () {
-        $("#acceptFriendshipBtn").click(function () {
-            $.post("../api/friend_accept.php",
-                {
-                    user_friend: localStorage.getItem("user_profile"),
-                    user_id: localStorage.getItem("user_id")
-                },
-                function (data) {
-                    let obj = JSON.parse(data);
-                    if (obj.status == 200) {
-                        window.location.reload();
-                    } else {
-                        alert("Erro ao aceitar")
-                    }
-                });
-        });
-    });
+    function acceptFriendshipBtn(id) {
+        $.post("../api/friend_accept.php",
+            {
+                user_friend: id,
+                user_id: localStorage.getItem("user_id")
+            },
+            function (data) {
+                window.location.reload();
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                    window.location.reload();
+                } else {
+                    alert("Erro ao cancelar amizade")
+                }
+            });
+    }
 </script>
 <script>
-    $(document).ready(function () {
-        $("#removeFriendBtn").click(function () {
-            $.post("../api/remove_friend.php",
-                {
-                    user_friend: localStorage.getItem("user_profile"),
-                    user_id: localStorage.getItem("user_id")
-                },
-                function (data) {
-                    let obj = JSON.parse(data);
-                    if (obj.status == 200) {
-                        window.location.reload();
-                    } else {
-                        alert("Erro ao remover amigo")
-                    }
-                });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $("#cancelFriendshipAskBtn").click(function () {
-            $.post("../api/remove_friend.php",
-                {
-                    user_friend: localStorage.getItem("user_profile"),
-                    user_id: localStorage.getItem("user_id")
-                },
-                function (data) {
-                    let obj = JSON.parse(data);
-                    if (obj.status == 200) {
-                        window.location.reload();
-                    } else {
-                        alert("Erro ao cancelar amizade")
-                    }
-                });
-        });
-    });
+    function cancelFriendshipAskBtn(id) {
+        $.post("../api/remove_friend.php",
+            {
+                user_friend: id,
+                user_id: localStorage.getItem("user_id")
+            },
+            function (data) {
+                window.location.reload();
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                    window.location.reload();
+                } else {
+                    alert("Erro ao cancelar amizade")
+                }
+            });
+    }
 </script>
 <script>
     $(document).ready(function () {

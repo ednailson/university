@@ -72,7 +72,7 @@
                                             '</b></p>',
                                             (cardData.liked === "1") ? ['<button class="btn btn-link btn-warning pull-right" onclick="unlikePost('+cardData.post_id+')"><i class="tim-icons icon-shape-star"></i> Descurtir</button>'] : ['<button class="btn btn-link btn-info pull-right" onclick="likePost('+cardData.post_id+')"><i class="tim-icons icon-shape-star"></i> Curtir</button>'],
 
-                            '<button class="btn btn-link btn-warning pull-right" onclick="deletePost('+cardData.post_id+')"><i class="tim-icons icon-trash-simple"></i> Excluir post</button>',
+                            (cardData.fk_user_id === localStorage.getItem("user_id")) ? ['<button class="btn btn-link btn-warning pull-right" onclick="deletePost('+cardData.post_id+')"><i class="tim-icons icon-trash-simple"></i> Excluir post</button>'] : '',
 
                             '<br><br><br><br>',
                             (cardData.comments != null) ? function(cardData2) {

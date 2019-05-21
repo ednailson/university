@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/hashing.iml" filepath="$PROJECT_DIR$/hashing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/counting-sort.iml" filepath="$PROJECT_DIR$/counting-sort.iml" />
     </modules>
   </component>
 </project>

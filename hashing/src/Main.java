@@ -1,85 +1,49 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
+import java.util.Arrays;
 
 public class Main {
 
+    static void countSort(int[] arr)
+    {
+        int max = Arrays.stream(arr).max().getAsInt();
+        int min = Arrays.stream(arr).min().getAsInt();
+        int range = max - min + 1;
+        int count[] = new int[range];
+        int output[] = new int[arr.length];
+        for (int i = 0; i < arr.length; i++)
+        {
+            count[arr[i] - min]++;
+        }
+
+        for (int i = 1; i < count.length; i++)
+        {
+            count[i] += count[i - 1];
+        }
+
+        for (int i = arr.length - 1; i >= 0; i--)
+        {
+            output[count[arr[i] - min] - 1] = arr[i];
+            count[arr[i] - min]--;
+        }
+
+        for (int i = 0; i < arr.length; i++)
+        {
+            arr[i] = output[i];
+        }
+    }
+
+    static void printArray(int[] arr)
+    {
+        for (int i = 0; i < arr.length; i++)
+        {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println("");
+    }
+
+
     public static void main(String[] args) {
-        String csvFile = "C:\\Users\\ednai\\Git\\university.activities\\hashing\\data.csv";
-        BufferedReader br = null;
-        String line;
-        String cvsSplitBy = ";";
-        SeparateChainingHashTable studentList = new SeparateChainingHashTable();
-        int tableSize = studentList.GetTableSize();
-        studentList.SeparateChainingHashTable(tableSize);
-        try {
-            br = new BufferedReader(new FileReader(csvFile));
-            while ((line = br.readLine()) != null) {
-                String[] st = line.split(cvsSplitBy);
-                Student student = new Student();
-                student.SetInfo(Integer.parseInt(st[0]), st[1]);
-                studentList.Insert(student);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        while (true) {
-            System.out.println("# MENU #");
-            System.out.println("-- OPÇÕES --");
-            System.out.println("1 - Imprimir o HASH");
-            System.out.println("2 - Inserir estudante");
-            System.out.println("3 - Remover estudante");
-            System.out.println("4 - Limpar todo o hash");
-            Scanner scanner = new Scanner(System.in);
-            int option = scanner.nextInt();
-            switch (option) {
-                case 1:
-                    System.out.println("\n\n");
-                    studentList.PrintAll();
-                    System.out.println("\n\n");
-                    break;
-                case 2:
-                    System.out.println("Insira a matricula(numero inteiro)");
-                    int registry = scanner.nextInt();
-                    System.out.println("Insira o nome");
-                    String name = scanner.next();
-                    Student s = new Student();
-                    s.SetInfo(registry, name);
-                    if (studentList.Insert(s)){
-                        System.out.println("Estudante inserido com sucesso");
-                    } else {
-                        System.out.println("Estudante não pode ser inserido");
-                    }
-                    break;
-                case 3:
-                    System.out.println("Insira a matricula(numero inteiro)");
-                    int r = scanner.nextInt();
-                    System.out.println("Insira o nome");
-                    String n = scanner.next();
-                    Student s2 = new Student();
-                    s2.SetInfo(r, n);
-                    if (studentList.Remove(s2)){
-                        System.out.println("Estudante removido com sucesso");
-                    } else {
-                        System.out.println("Estudante não foi removido");
-                    }
-                    break;
-                case 4:
-                    studentList.MakeEmpty();
-                    break;
-            }
-        }
+        int[] arr = {-5, -10, 0, -3, 8, 5, -10, 10};
+        countSort(arr);
+        printArray(arr);
     }
 }

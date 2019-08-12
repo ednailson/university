@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <title>
+        HeroesBook
+    </title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet"/>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet"/>
+    <link href="../assets/css/blk-design-system.css?v=1.0.0" rel="stylesheet"/>
+    <link href="../assets/demo/demo.css" rel="stylesheet"/>
+    <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
+    <script>
+        $.post("../api/user.php",
+            {
+                user_id: localStorage.getItem("user_id"),
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200 && obj.data != null) {
+                    localStorage.setItem("user_name", obj.data.name);
+                    document.getElementById("userName").innerHTML = obj.data.name;
+                    document.getElementById("userEmail").innerHTML = obj.data.email;
+                    function createCard3(cardData) {
+                        let cardTemplate = [
+                            '<img src="',(cardData.photo !== "") ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" class="img-center img-fluid rounded-circle">',
+                        ];
+                        return $(cardTemplate.join(''));
+                    }
+                    let cards = $();
+                    cards = cards.add(createCard3(obj.data));
+                    $(function () {
+                        $('#profileImg').append(cards);
+                    });
+                } else {
+                    window.location.href = "../index.html";
+                }
+            });
+    </script>
+    <script>
+        $.get("../api/post.php",
+            {
+                user_id: localStorage.getItem("user_id"),
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200 && obj.data != null) {
+                    function createCard(cardData) {
+                        let cardTemplate = [
+                            '<div class="mb-3">',
+                            '<small class="text-uppercase font-weight-bold">AUTOR DO POST :</small>',
+                            '<button class="btn btn-link btn-info" onclick="goToProfile(',cardData.fk_user_id,')">',
+                            cardData.user,
+                            '</button>',
+                            '</div>',
+                            '<div class="card">',
+                                '<div class="card-body">',
+                                    '<div class="tab-content tab-space">',
+                                        '<div class="tab-pane active" id="">',
+                                            '<img src=',(cardData.images !== "") ? cardData.images : 'http://www.surgesonelectric.com/wp-content/themes/azoomtheme/images/demo/demo-image-default.jpg',' alt="" class="img-fluid rounded shadow img-center mb-5" style="width: 200px;">',
+                                            '<big><p class="text-lg-center">',
+                                                cardData.text,
+                                            '</p></big>',
+                                            '<p class="text-sm-left text-body mt-5" style="margin-bottom: -50px;"><b>Data da publicação: ',
+                                                cardData.date,
+                                                '   -  Curtidas: ', cardData.likes,
+                                            '</b></p>',
+                                            (cardData.liked === "1") ? ['<button class="btn btn-link btn-warning pull-right" onclick="unlikePost('+cardData.post_id+')"><i class="tim-icons icon-shape-star"></i> Descurtir</button>'] : ['<button class="btn btn-link btn-info pull-right" onclick="likePost('+cardData.post_id+')"><i class="tim-icons icon-shape-star"></i> Curtir</button>'],
+
+                            (cardData.fk_user_id === localStorage.getItem("user_id")) ? ['<button class="btn btn-link btn-warning pull-right" onclick="deletePost('+cardData.post_id+')"><i class="tim-icons icon-trash-simple"></i> Excluir post</button>'] : '',
+
+                            '<br><br><br><br>',
+                            (cardData.comments != null) ? function(cardData2) {
+                                    let comms = '';
+                                    cardData2.comments.forEach(function (element, index, array) {
+                                        comms += ('<p class="text-sm-center text-success"><b>' + element +'</b></p>')
+                                    });
+                                    return comms;
+                                }(cardData) : '',
+                            '<input type="text" class="form-control mt-4" placeholder="Comentário" id="comment-post-'+cardData.post_id+'">',
+                            '<button class="btn btn-info pull-right mt-3" onclick="publishComment('+ cardData.post_id + ')">Publicar comentario</button>',
+                            '</div></div></div></div>'
+                        ];
+                        return $(cardTemplate.join(''));
+                    }
+                    let cards = $();
+                    for (let i = obj.data.length - 1; i > -1; i--) {
+                        cards = cards.add(createCard(obj.data[i]));
+                    }
+                    $(function () {
+                        $('#wholePosts').append(cards);
+                    });
+                } else {
+                    alert("Algo deu errado, reinicie a página!")
+                }
+            });
+    </script>
+</head>
+
+<body class="profile-page">
+<!-- Navbar -->
+<div id="testing"></div>
+<nav class="navbar navbar-expand-lg fixed-top navbar-transparent " color-on-scroll="100">
+    <div class="container">
+        <div class="navbar-translate">
+            <a class="navbar-brand" href="timeline.html" rel="tooltip" data-placement="bottom">
+                <span>HEROES•</span>BOOK
+            </a>
+            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+                    aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <div class="navbar-collapse-header">
+                <div class="row">
+                    <div class="col-6 collapse-brand">
+                        <a>
+                            HEROES•BOOK
+                        </a>
+                    </div>
+                    <div class="col-6 collapse-close text-right">
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navigation"
+                                aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="tim-icons icon-simple-remove"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="friendship.html" class="nav-link">
+                        <i class="tim-icons icon-heart-2"></i> Solicitações pendentes
+                    </a>
+                </li>
+                <li class="dropdown nav-item">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <i class="tim-icons icon-single-02"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-with-icons">
+                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#myModal1">
+                            <i class="tim-icons icon-button-power"></i> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="modal fade modal-mini modal-info modal-mini" id="myModal1" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="tim-icons icon-simple-remove text-white"></i>
+                </button>
+                <div class="modal-profile">
+                    <i class="tim-icons icon-single-02 text-info"></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p>Deseja realmente sair da sua conta?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link btn-neutral" id="logoutBtn">Sair</button>
+                <button type="button" class="btn btn-link btn-neutral" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="page-header">
+        <img src="../assets/img/dots.png" class="dots">
+        <img src="../assets/img/path4.png" class="path">
+        <div class="container align-items-center">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <div class="card card-register">
+                        <div class="card-header">
+                            <img class="card-img" src="../assets/img/square1.png" alt="Card image">
+                            <h4 class="card-title ml-2">Post</h4>
+                        </div>
+                        <div class="card-body">
+                            <form class="form">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Adicione a url de sua imagem" id="postImagePublishing">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="tim-icons icon-image-02"></i></span>
+                                    </div>
+                                </div>
+
+                                <label for="postText"><i class="tim-icons icon-notes text-lg-center"></i></label>
+                                <textarea id="postText" class="form-control" placeholder="No que você está pensando?"
+                                          maxlength="200"></textarea>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <a href="javascript:void(0)" id="publishingBtn" class="btn btn-info btn-round btn-lg">Publique</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 ml-auto mr-auto">
+                    <div class="card card-coin card-plain">
+                        <div class="card-header" id="userProfile">
+                            <div id="profileImg">
+
+                            </div>
+<!--                            <img src="../assets/img/mike.jpg" class="img-center img-fluid rounded-circle">-->
+                            <button class="btn btn-link btn-info mt-4" id="userName" style="font-size: 35px;" onclick="goToProfile(localStorage.getItem('user_id'))">Info</button>
+                            <h4 class="text-center" id="userEmail"></h4>
+                        </div>
+                        <div class="tab-content tab-subcategories">
+                            <div class="form-group">
+                                <input type="text" value="" placeholder="Procure por nome" class="form-control" id="userNameInput"/>
+                            </div>
+                            <button class="btn btn-primary btn-round btn-sm pull-right" type="button" id="searchBtn">
+                                <i class="tim-icons icon-zoom-split"></i>
+                            </button>
+                            <div class="tab-pane active" id="linka">
+                                <div class="">
+                                    <table class="table tablesorter " id="plain-table">
+                                        <thead class=" text-primary">
+                                        <tr>
+                                            <th class="header">
+<!--                                                FOTO-->
+                                            </th>
+                                            <th class="header">
+<!--                                                USUARIO-->
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="searchedFriends">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="linkb">
+                                <div class="row">
+                                    <label class="col-sm-3 col-form-label">Pay to</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="e.g. 1Nasd92348hU984353hfid">
+                                            <span class="form-text">Please enter a valid address.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-3 col-form-label">Amount</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="1.587">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-simple btn-primary btn-icon btn-round float-right">
+                                    <i class="tim-icons icon-send"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section section-tabs">
+    <div class="container">
+        <div class="title">
+            <h3 class="mb-3">POSTS</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-10 ml-auto col-xl-8 col-xl-offset-2 mr-auto" id="wholePosts">
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h1 class="title">HEROES•BOOK</h1>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+<script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/plugins/bootstrap-switch.js"></script>
+<script src="../assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<script src="../assets/js/plugins/chartjs.min.js"></script>
+<script src="../assets/js/plugins/moment.min.js"></script>
+<script src="../assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+<script src="../assets/demo/demo.js"></script>
+<script src="../assets/js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $("#publishingBtn").click(function () {
+            $.post("../api/post.php",
+                {
+                    post: document.getElementById("postText").value,
+                    image: document.getElementById("postImagePublishing").value,
+                    user_id: localStorage.getItem("user_id")
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200) {
+                        window.location.reload();
+                    } else {
+                        alert("Erro ao publicar")
+                    }
+                });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#searchBtn").click(function () {
+            $.get("../api/user.php",
+                {
+                    user_name: document.getElementById("userNameInput").value,
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200 && obj.data != null) {
+                        function createCard2(cardData) {
+                            let cardTemplate = [
+                                '<tr>',
+                                '<td>',
+                                '<img src="',(cardData.photo !== "") ? cardData.photo : 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png','" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 40px;">',
+                                '</td>',
+                                '<td>',
+                                '<button class="btn btn-link btn-info" onclick="goToProfile(',cardData.user_id,')">',
+                                cardData.name,
+                                '</button>',
+                                '</td>',
+                                '</tr>',
+                            ];
+                            return $(cardTemplate.join(''));
+                        }
+                        let cards = $();
+                        for (let i = obj.data.length - 1; i > -1; i--) {
+                            cards = cards.add(createCard2(obj.data[i]));
+                        }
+                        $(function () {
+                            $('#searchedFriends').append(cards);
+                        });
+                    } else {
+                        alert("Nenhum usuario foi encontrado com esse nome")
+                    }
+                });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#logoutBtn").click(function () {
+            localStorage.removeItem("user_id");
+            localStorage.removeItem("user_profile");
+            window.location.replace("../index.html");
+        });
+    });
+</script>
+<script>
+    function goToProfile(i) {
+        localStorage.setItem("user_profile", i);
+        window.location.replace("profile.html");
+    }
+</script>
+<script>
+    function publishComment (i) {
+        $.post("../api/add_comment.php",
+            {
+                comment: localStorage.getItem("user_name") + ': ' + document.getElementById("comment-post-" + i).value,
+                post_id: i,
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                    window.location.reload();
+                } else {
+                    window.location.reload();
+                }
+            });
+    }
+</script>
+<script>
+    function deletePost (i) {
+        let ok = window.confirm("Deseja excluir?");
+        if(ok){
+            $.post("../api/delete_post.php",
+                {
+                    post_id: i,
+                },
+                function (data) {
+                    let obj = JSON.parse(data);
+                    if (obj.status == 200) {
+                        window.location.reload();
+                    } else {
+                        window.location.reload();
+                    }
+                });
+        }
+    }
+</script>
+<script>
+    function likePost(info) {
+        $.post("../api/like_post.php",
+            {
+                post_id: info,
+                liked: 1,
+                user_id: localStorage.getItem("user_id")
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                    window.location.reload();
+                } else {
+                    window.location.reload();
+                }
+            });
+    }
+</script>
+<script>
+    function unlikePost(info) {
+        $.post("../api/like_post.php",
+            {
+                post_id: info,
+                liked: 0,
+                user_id: localStorage.getItem("user_id")
+            },
+            function (data) {
+                let obj = JSON.parse(data);
+                if (obj.status == 200) {
+                    window.location.reload();
+                } else {
+                    window.location.reload();
+                }
+            });
+    }
+</script>
+</body>
+
+</html>

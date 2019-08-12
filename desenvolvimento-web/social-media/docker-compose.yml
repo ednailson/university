@@ -26,7 +26,7 @@ services:
 
   apache:
     build:
-      context: ./
+      context: ../..
     restart: always
     ports:
       - '80:80'

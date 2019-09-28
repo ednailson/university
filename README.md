@@ -1,4 +1,4 @@
-# UNIVERSITY ACTIVITIES
+# UNIVERSITY HOMEWORK
 I study Computer Engineering and here is where I host my homework
 ### How I organize it
 * Folders: `subject-name/project`

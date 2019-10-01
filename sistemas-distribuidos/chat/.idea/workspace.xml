@@ -108,8 +108,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.Client" />
         <item itemvalue="Application.FCliente" />
       </list>
     </recent_temporary>
@@ -125,7 +125,7 @@
       <option name="presentableId" value="Default" />
       <updated>1569855335948</updated>
       <workItem from="1569855339123" duration="1841000" />
-      <workItem from="1569927726236" duration="1575000" />
+      <workItem from="1569927726236" duration="2066000" />
     </task>
     <task id="LOCAL-00001" summary="finalização do chat">
       <created>1569857024705</created>
@@ -148,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569857179496</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="refatoração">
+      <created>1569929315662</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1569929315662</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,6 +176,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="finalização do chat" />
-    <option name="LAST_COMMIT_MESSAGE" value="finalização do chat" />
+    <MESSAGE value="refatoração" />
+    <option name="LAST_COMMIT_MESSAGE" value="refatoração" />
   </component>
 </project>

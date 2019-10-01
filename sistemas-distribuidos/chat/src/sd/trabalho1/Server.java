@@ -32,12 +32,12 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
-    private void sendToAll(BufferedWriter bwSaida, String msg) throws IOException {
+    private void sendToAll(BufferedWriter bwOut, String msg) throws IOException {
         BufferedWriter bwS;
         for (BufferedWriter bw : clients) {
             bwS = (BufferedWriter) bw;
-            if (!(bwSaida == bwS)) {
-                bw.write(name + " -> " + msg + "\r\n");
+            if (!(bwOut == bwS)) {
+                bw.write(name + ": " + msg + "\r\n");
                 bw.flush();
             }
         }

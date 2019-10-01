@@ -21,7 +21,6 @@ public class Client extends JFrame implements ActionListener, KeyListener {
     private static final long serialVersionUID = 1L;
     private JButton btnSend;
     private JTextField txtPort;
-    private JButton btnClose;
     private JTextField txtMsg;
     private OutputStream ou;
     private JTextField txtIP;
@@ -34,11 +33,13 @@ public class Client extends JFrame implements ActionListener, KeyListener {
         JLabel JLHistoric;
         JLabel lblMsg;
         JPanel pnlContent;
-        JLabel lblMessage = new JLabel("Verificar!");
+        JLabel lblMessage = new JLabel("IP Servidor:");
+        JLabel lblMessage2 = new JLabel("Porta do Servidor:");
+        JLabel lblMessage3 = new JLabel("Nome do usuário:");
         txtIP = new JTextField("127.0.0.1");
         txtPort = new JTextField("12345");
-        txtNome = new JTextField("Cliente");
-        Object[] texts = {lblMessage, txtIP, txtPort, txtNome};
+        txtNome = new JTextField("Maria do bairro");
+        Object[] texts = {lblMessage, txtIP, lblMessage2, txtPort, lblMessage3, txtNome};
         JOptionPane.showMessageDialog(null, texts);
         pnlContent = new JPanel();
         text = new JTextArea(10, 20);
@@ -49,10 +50,7 @@ public class Client extends JFrame implements ActionListener, KeyListener {
         lblMsg = new JLabel("Mensagem");
         btnSend = new JButton("Enviar");
         btnSend.setToolTipText("Enviar Mensagem");
-        btnClose = new JButton("Sair");
-        btnClose.setToolTipText("Sair do Chat");
         btnSend.addActionListener(this);
-        btnClose.addActionListener(this);
         btnSend.addKeyListener(this);
         txtMsg.addKeyListener(this);
         JScrollPane scroll = new JScrollPane(text);
@@ -61,7 +59,6 @@ public class Client extends JFrame implements ActionListener, KeyListener {
         pnlContent.add(scroll);
         pnlContent.add(lblMsg);
         pnlContent.add(txtMsg);
-        pnlContent.add(btnClose);
         pnlContent.add(btnSend);
         pnlContent.setBackground(Color.LIGHT_GRAY);
         text.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLUE));
@@ -125,22 +122,17 @@ public class Client extends JFrame implements ActionListener, KeyListener {
         try {
             if (e.getActionCommand().equals(btnSend.getActionCommand()))
                 sendMessage(txtMsg.getText());
-            else if (e.getActionCommand().equals(btnClose.getActionCommand()))
-                close();
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
                 sendMessage(txtMsg.getText());
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
@@ -148,12 +140,10 @@ public class Client extends JFrame implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent arg0) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void keyTyped(KeyEvent arg0) {
-        // TODO Auto-generated method stub
     }
 
     public static void main(String[] args) throws IOException {

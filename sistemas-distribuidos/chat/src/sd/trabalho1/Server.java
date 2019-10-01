@@ -16,35 +16,28 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Server extends Thread {
-
-
-    private static ArrayList<BufferedWriter> clientes;
-    private static ServerSocket server;
-    private String nome;
-    private Socket con;
-    private InputStream in;
-    private InputStreamReader inr;
     private BufferedReader bfr;
-
-
-    public Server(Socket con) {
+    private static ArrayList<BufferedWriter> clients;
+    private Socket con;
+    private String name;
+    private Server(Socket con) {
+        InputStream is;
+        InputStreamReader isr;
         this.con = con;
         try {
-            in = con.getInputStream();
-            inr = new InputStreamReader(in);
-            bfr = new BufferedReader(inr);
+            is = con.getInputStream();
+            isr = new InputStreamReader(is);
+            bfr = new BufferedReader(isr);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public void sendToAll(BufferedWriter bwSaida, String msg) throws IOException {
+    private void sendToAll(BufferedWriter bwSaida, String msg) throws IOException {
         BufferedWriter bwS;
-
-        for (BufferedWriter bw : clientes) {
+        for (BufferedWriter bw : clients) {
             bwS = (BufferedWriter) bw;
             if (!(bwSaida == bwS)) {
-                bw.write(nome + " -> " + msg + "\r\n");
+                bw.write(name + " -> " + msg + "\r\n");
                 bw.flush();
             }
         }
@@ -56,8 +49,8 @@ public class Server extends Thread {
             OutputStream ou = this.con.getOutputStream();
             Writer ouw = new OutputStreamWriter(ou);
             BufferedWriter bfw = new BufferedWriter(ouw);
-            clientes.add(bfw);
-            nome = msg = bfr.readLine();
+            clients.add(bfw);
+            name = msg = bfr.readLine();
 
             while (!"Sair".equalsIgnoreCase(msg) && msg != null) {
                 msg = bfr.readLine();
@@ -71,13 +64,14 @@ public class Server extends Thread {
     }
 
     public static void main(String[] args) {
+        ServerSocket server;
         try {
             JLabel lblMessage = new JLabel("Porta do Servidor:");
             JTextField txtPorta = new JTextField("12345");
             Object[] texts = {lblMessage, txtPorta};
             JOptionPane.showMessageDialog(null, texts);
             server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
-            clientes = new ArrayList<BufferedWriter>();
+            clients = new ArrayList<BufferedWriter>();
             JOptionPane.showMessageDialog(null, "Servidor ativo na porta: " +
                     txtPorta.getText());
 

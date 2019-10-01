@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9f54299f-df97-4519-9e73-e1460d19f530" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatting.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sd/trabalho1/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sd/trabalho1/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sd/trabalho1/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sd/trabalho1/Server.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -125,6 +125,7 @@
       <option name="presentableId" value="Default" />
       <updated>1569855335948</updated>
       <workItem from="1569855339123" duration="1841000" />
+      <workItem from="1569927726236" duration="1575000" />
     </task>
     <task id="LOCAL-00001" summary="finalização do chat">
       <created>1569857024705</created>
@@ -158,7 +159,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

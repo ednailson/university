@@ -22,24 +22,26 @@ public class Client extends JFrame implements ActionListener, KeyListener {
     private JButton btnSend;
     private JTextField txtPort;
     private JTextField txtMsg;
-    private OutputStream ou;
     private JTextField txtIP;
     private Socket socket;
     private BufferedWriter bfw;
     private JTextField txtNome;
-    private Writer ouw;
 
     private Client() {
         JLabel JLHistoric;
         JLabel lblMsg;
         JPanel pnlContent;
-        JLabel lblMessage = new JLabel("IP Servidor:");
-        JLabel lblMessage2 = new JLabel("Porta do Servidor:");
-        JLabel lblMessage3 = new JLabel("Nome do usuário:");
+        txtNome = new JTextField("Maria do bairro");
         txtIP = new JTextField("127.0.0.1");
         txtPort = new JTextField("12345");
-        txtNome = new JTextField("Maria do bairro");
-        Object[] texts = {lblMessage, txtIP, lblMessage2, txtPort, lblMessage3, txtNome};
+        Object[] texts = {
+                new JLabel("IP Servidor:"),
+                txtIP,
+                new JLabel("Porta do Servidor:"),
+                txtPort,
+                new JLabel("Nome do usuário:"),
+                txtNome
+        };
         JOptionPane.showMessageDialog(null, texts);
         pnlContent = new JPanel();
         text = new JTextArea(10, 20);
@@ -73,6 +75,8 @@ public class Client extends JFrame implements ActionListener, KeyListener {
     }
 
     private void connect() throws IOException {
+        OutputStream ou;
+        Writer ouw;
         socket = new Socket(txtIP.getText(), Integer.parseInt(txtPort.getText()));
         ou = socket.getOutputStream();
         ouw = new OutputStreamWriter(ou);
@@ -82,13 +86,8 @@ public class Client extends JFrame implements ActionListener, KeyListener {
     }
 
     private void sendMessage(String msg) throws IOException {
-        if (msg.equals("Sair")) {
-            bfw.write("Desconectado \r\n");
-            text.append("Desconectado \r\n");
-        } else {
-            bfw.write(msg + "\r\n");
-            text.append(txtNome.getText() + " diz -> " + txtMsg.getText() + "\r\n");
-        }
+        bfw.write(msg + "\r\n");
+        text.append(txtNome.getText() + ": " + txtMsg.getText() + "\r\n");
         bfw.flush();
         txtMsg.setText("");
     }
@@ -108,17 +107,8 @@ public class Client extends JFrame implements ActionListener, KeyListener {
             }
     }
 
-    private void close() throws IOException {
-        sendMessage("Sair");
-        bfw.close();
-        ouw.close();
-        ou.close();
-        socket.close();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
         try {
             if (e.getActionCommand().equals(btnSend.getActionCommand()))
                 sendMessage(txtMsg.getText());
@@ -139,12 +129,10 @@ public class Client extends JFrame implements ActionListener, KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent arg0) {
-    }
+    public void keyReleased(KeyEvent arg0) {}
 
     @Override
-    public void keyTyped(KeyEvent arg0) {
-    }
+    public void keyTyped(KeyEvent arg0) {}
 
     public static void main(String[] args) throws IOException {
         Client app = new Client();

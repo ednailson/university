@@ -4,7 +4,6 @@
     <list default="true" id="9f54299f-df97-4519-9e73-e1460d19f530" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sd/trabalho1/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sd/trabalho1/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sd/trabalho1/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sd/trabalho1/Server.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -108,8 +107,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Server" />
         <item itemvalue="Application.Client" />
+        <item itemvalue="Application.Server" />
         <item itemvalue="Application.FCliente" />
       </list>
     </recent_temporary>
@@ -125,7 +124,7 @@
       <option name="presentableId" value="Default" />
       <updated>1569855335948</updated>
       <workItem from="1569855339123" duration="1841000" />
-      <workItem from="1569927726236" duration="2066000" />
+      <workItem from="1569927726236" duration="3163000" />
     </task>
     <task id="LOCAL-00001" summary="finalização do chat">
       <created>1569857024705</created>
@@ -155,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569929315662</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="refatoração">
+      <created>1569930024873</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1569930024873</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -51,8 +51,7 @@ public class Server extends Thread {
             BufferedWriter bfw = new BufferedWriter(ouw);
             clients.add(bfw);
             name = msg = bfr.readLine();
-
-            while (!"Sair".equalsIgnoreCase(msg) && msg != null) {
+            while (msg != null) {
                 msg = bfr.readLine();
                 sendToAll(bfw, msg);
                 System.out.println(msg);
@@ -66,14 +65,13 @@ public class Server extends Thread {
     public static void main(String[] args) {
         ServerSocket server;
         try {
+            JTextField txtPort = new JTextField("12345");
             JLabel lblMessage = new JLabel("Porta do Servidor:");
-            JTextField txtPorta = new JTextField("12345");
-            Object[] texts = {lblMessage, txtPorta};
+            Object[] texts = {lblMessage, txtPort};
             JOptionPane.showMessageDialog(null, texts);
-            server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
+            server = new ServerSocket(Integer.parseInt(txtPort.getText()));
             clients = new ArrayList<BufferedWriter>();
-            JOptionPane.showMessageDialog(null, "Servidor ativo na porta: " +
-                    txtPorta.getText());
+            JOptionPane.showMessageDialog(null, "Servidor rodando!");
 
             while (true) {
                 System.out.println("Aguardando conexão...");

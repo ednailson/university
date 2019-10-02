@@ -4,6 +4,7 @@
     <list default="true" id="9f54299f-df97-4519-9e73-e1460d19f530" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sd/trabalho1/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sd/trabalho1/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sd/trabalho1/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sd/trabalho1/Server.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +50,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="sd.trabalho1.Client" />
       <module name="chat" />
@@ -107,8 +108,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.Client" />
         <item itemvalue="Application.FCliente" />
       </list>
     </recent_temporary>
@@ -124,7 +125,8 @@
       <option name="presentableId" value="Default" />
       <updated>1569855335948</updated>
       <workItem from="1569855339123" duration="1841000" />
-      <workItem from="1569927726236" duration="3163000" />
+      <workItem from="1569927726236" duration="4592000" />
+      <workItem from="1570015514123" duration="1694000" />
     </task>
     <task id="LOCAL-00001" summary="finalização do chat">
       <created>1569857024705</created>
@@ -161,7 +163,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569930024873</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="refatoração">
+      <created>1569931078945</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1569931078945</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

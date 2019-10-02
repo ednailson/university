@@ -97,13 +97,10 @@ public class Client extends JFrame implements ActionListener, KeyListener {
         InputStreamReader inr = new InputStreamReader(in);
         BufferedReader bfr = new BufferedReader(inr);
         String msg = "";
-        while (!"Sair".equalsIgnoreCase(msg))
+        while (true)
             if (bfr.ready()) {
                 msg = bfr.readLine();
-                if (msg.equals("Sair"))
-                    text.append("Servidor caiu! \r\n");
-                else
-                    text.append(msg + "\r\n");
+                text.append(msg + "\r\n");
             }
     }
 
@@ -129,10 +126,12 @@ public class Client extends JFrame implements ActionListener, KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent arg0) {}
+    public void keyReleased(KeyEvent arg0) {
+    }
 
     @Override
-    public void keyTyped(KeyEvent arg0) {}
+    public void keyTyped(KeyEvent arg0) {
+    }
 
     public static void main(String[] args) throws IOException {
         Client app = new Client();
